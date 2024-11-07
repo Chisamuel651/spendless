@@ -16,8 +16,8 @@ export default function Home() {
             </p>
 
             <div className="flex justify-center items-center">
-              <Link href={""} className="btn btn-sm md:btn-md btn-outline btn-accent">{" "} Se connecter</Link>
-              <Link href={""} className="btn btn-sm md:btn-md ml-2 btn-accent">{" "} S'inscrire</Link>
+              <Link href={"/sign-in"} className="btn btn-sm md:btn-md btn-outline btn-accent">Se connecter</Link>
+              <Link href={"/sign-up"} className="btn btn-sm md:btn-md ml-2 btn-accent">S'inscrire</Link>
             </div>
           </div>
         </div>
