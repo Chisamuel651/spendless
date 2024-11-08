@@ -17,6 +17,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Spendless",
   description: "Gerer vos depenses avec efficacite",
+  icons:{
+    icon: '/logo-1.svg'
+  }
 };
 
 export default function RootLayout({
