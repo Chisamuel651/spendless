@@ -11,16 +11,16 @@ export default function Home() {
         <div>
           <div className="flex flex-col">
             <h1 className="text-4xl md:text-5xl font-bold text-center">
-              Prenez le contrôle <br /> de votre budget
+              Take control <br /> of your budget
             </h1>
 
             <p className="py-6 text-gray-800 text-center">
-              Gardez un œil sur vos dépenses et votre budget <br /> tout en simplicité, avec notre application intuitive !
+              Keep an eye on your expenses and your budget <br /> simply, with our intuitive application!
             </p>
 
             <div className="flex justify-center items-center">
-              <Link href={"/sign-in"} className="btn btn-sm md:btn-md btn-outline btn-accent">Se connecter</Link>
-              <Link href={"/sign-up"} className="btn btn-sm md:btn-md ml-2 btn-accent">S'inscrire</Link>
+              <Link href={"/sign-in"} className="btn btn-sm md:btn-md btn-outline btn-accent">Login</Link>
+              <Link href={"/sign-up"} className="btn btn-sm md:btn-md ml-2 btn-accent">Sign Up</Link>
             </div>
           </div>
         </div>

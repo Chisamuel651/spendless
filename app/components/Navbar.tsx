@@ -25,9 +25,9 @@ const Navbar = () => {
                     </div>
 
                     <div className="md:flex hidden">
-                        <Link className='btn' href={'/budgets'}>Mes budgets</Link>
-                        <Link className='btn mx-4' href={''}>Tableau de bord</Link>
-                        <Link className='btn' href={''}>Mes transactions</Link>
+                        <Link className='btn' href={'/budgets'}>My budgets</Link>
+                        <Link className='btn mx-4' href={''}>Dashboard</Link>
+                        <Link className='btn' href={''}>My transactions</Link>
                     </div>
 
                     <UserButton />
@@ -35,9 +35,9 @@ const Navbar = () => {
 
                 {/* mobile responsiveness */}
                 <div className="md:hidden flex mt-2 justify-center space-x-2">
-                    <Link className='btn btn-xs' href={'/budgets'}>Mes budgets</Link>
-                    <Link className='btn mx-2 btn-xs' href={''}>Tableau de bord</Link>
-                    <Link className='btn btn-xs' href={''}>Mes transactions</Link>
+                    <Link className='btn btn-xs' href={'/budgets'}>My budgets</Link>
+                    <Link className='btn mx-2 btn-xs' href={''}>Dashboard</Link>
+                    <Link className='btn btn-xs' href={''}>My transactions</Link>
                 </div>
                 
             </>
@@ -49,8 +49,8 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex mt-2 justify-center">
-                    <Link className='btn btn-sm' href={'/sign-in'}>Se connecter</Link>
-                    <Link className='btn mx-4 btn-sm btn-accent' href={'/sign-up'}>S'inscire</Link>
+                    <Link className='btn btn-sm' href={'/sign-in'}>Login</Link>
+                    <Link className='btn mx-4 btn-sm btn-accent' href={'/sign-up'}>Sign Up</Link>
                 </div>
             </div>
         ))

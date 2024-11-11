@@ -16,7 +16,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Spendless",
-  description: "Gerer vos depenses avec efficacite",
+  description: "Handle your expenses effectively",
   icons:{
     icon: '/logo-1.svg'
   }

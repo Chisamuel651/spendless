@@ -14,12 +14,28 @@ export async function checkAndAddUser( email: string | undefined ){
             await prisma.user.create({
                 data: {email}
             })
-            console.log("Nouvel utilisateurs ajouter dans la base de données")
+            console.log("New user added has been added to database")
         }else{
-            console.log("Cet utilisateur existe!!")
+            console.log("This user already exists!!")
         }
     } catch (error) {
-        console.error("Erreurs lors de la verification de l'utilisateur: ", error)
+        console.error("An error occured during the verification of the user: ", error)
     }
     
+}
+
+export async function addBudget( email: string, name: string, amount: number, selectedEmoji: string ){
+    try {
+        // get user using email
+        const user = await prisma.user.findUnique({
+            where: {email}
+        })
+
+        if(!user){
+            throw Error('User Not Found')
+        }
+    } catch (error) {
+        console.error("Error occured during the creation of the Budget: ", error);
+        throw error;
+    }
 }
