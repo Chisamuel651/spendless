@@ -34,6 +34,15 @@ export async function addBudget( email: string, name: string, amount: number, se
         if(!user){
             throw Error('User Not Found')
         }
+
+        await prisma.budget.create({
+            data: {
+                name,
+                amount,
+                emoji : selectedEmoji,
+                userId: user.id
+            }
+        })
     } catch (error) {
         console.error("Error occured during the creation of the Budget: ", error);
         throw error;
