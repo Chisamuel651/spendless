@@ -3,8 +3,12 @@ import React, { useEffect, useState } from 'react'
 import Wrapper from '../components/Wrapper'
 import { useUser } from '@clerk/nextjs'
 import dynamic from 'next/dynamic';
-import { addBudget } from '../action';
+import { addBudget, getBudgetsByUser } from '../action';
 import Notification from '../components/Notification';
+import { Budget } from '@/type';
+import Link from 'next/link';
+import BudgetItem from '../components/budgetItems';
+import { Landmark } from 'lucide-react';
 // import EmojiPicker from 'emoji-picker-react'
 
 const EmojiPicker = dynamic(() => import('emoji-picker-react'), { ssr: false });
@@ -16,6 +20,8 @@ const page = () => {
   const [budgetAmount, setBudgetAmount] = useState<string>("")
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false)
   const [selectedEmoji, setSelectedEmoji] = useState<string>("")
+
+  const [budgets, setBudgets] = useState<Budget[]>([])
 
   const [notification, setNotification] = useState<string>("")
   const closeNotification = () => {
@@ -59,6 +65,22 @@ const page = () => {
     }
   }
 
+  const fetchBudgets = async () => {
+    if(user?.primaryEmailAddress?.emailAddress){
+      try {
+        const userBudgets = await getBudgetsByUser(user?.primaryEmailAddress?.emailAddress)
+
+        setBudgets(userBudgets)
+      } catch (error) {
+        setNotification(`An error occured when getting your budgets: ${error}`);
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchBudgets()
+  }, [user?.primaryEmailAddress?.emailAddress])
+
   return (
     <Wrapper>
 
@@ -67,7 +89,10 @@ const page = () => {
       )}
 
       {/* pop up dispolay after creating budget */}
-      <button className="btn" onClick={() => (document.getElementById('my_modal_3') as HTMLDialogElement).showModal()}>New Budget</button>
+      <button className="btn mb-4" onClick={() => (document.getElementById('my_modal_3') as HTMLDialogElement).showModal()}>
+        New Budget
+        <Landmark className='w-4' />
+      </button>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
@@ -119,6 +144,18 @@ const page = () => {
           </div>
         </div>
       </dialog>
+
+      <ul className='grid md:grid-cols-3 gap-4'>
+        { budgets.map((budget) => (
+          <Link key={budget.id} href={""}>
+            <BudgetItem budget={budget} enableHover={1}>
+              
+            </BudgetItem>
+          </Link>
+        ))
+
+        }
+      </ul>
     </Wrapper>
   )
 }

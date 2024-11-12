@@ -48,3 +48,28 @@ export async function addBudget( email: string, name: string, amount: number, se
         throw error;
     }
 }
+
+export async function getBudgetsByUser( email: string ){
+    try {
+        const user = await prisma.user.findUnique({
+            where: {email},
+            include: {
+                budgets: {
+                    include: {
+                        transactions: true,
+                    }
+                }
+            }
+        });
+
+        if(!user){
+            throw Error('User Not Found')
+        }
+
+        return user.budgets
+
+    } catch (error) {
+        console.error("Error occured during the creation of the Budget: ", error);
+        throw error;
+    }
+}
