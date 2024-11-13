@@ -48,6 +48,7 @@ const page = () => {
         amount,
         selectedEmoji
       )
+      fetchBudgets()
 
       const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
 
@@ -147,7 +148,7 @@ const page = () => {
 
       <ul className='grid md:grid-cols-3 gap-4'>
         { budgets.map((budget) => (
-          <Link key={budget.id} href={""}>
+          <Link key={budget.id} href={`/manage/${budget.id}`}>
             <BudgetItem budget={budget} enableHover={1}>
               
             </BudgetItem>
