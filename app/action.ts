@@ -95,3 +95,51 @@ export async function getTransactionsByBudgetId( budgetId: string ){
         throw error;
     }
 }
+
+export async function addTransactionsToBudget( 
+    budgetId: string,
+    amount: number,
+    description: string
+){
+    try {
+        // verify if budget exist
+        const budget = await prisma.budget.findUnique({
+            where: {
+                id: budgetId
+            },
+            include: {
+                transactions: true
+            }
+        })
+
+        if(!budget){
+            throw new Error('Budget not found');
+        }
+
+        const totalTransaction = budget.transactions.reduce((sum, transaction) =>{
+            return sum + transaction.amount
+        }, 0)
+
+        const totalWithNewTransaction = totalTransaction + amount
+
+        if(totalWithNewTransaction > budget.amount){
+            throw new Error('The total amount of the transaction is higher than the initial budget amount.')
+        }
+
+        const newTransaction = await prisma.transaction.create({
+            data: {
+                amount,
+                description,
+                emoji: budget.emoji,
+                budget: {
+                    connect: {
+                        id: budgetId
+                    }
+                }
+            }
+        })
+    } catch (error) {
+        console.error("Error occured during the creation of the Transaction: ", error);
+        throw error;
+    }
+}
