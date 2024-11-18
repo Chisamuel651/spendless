@@ -5,6 +5,7 @@ import Wrapper from '@/app/components/Wrapper'
 import { Budget } from '@/type'
 import React, { useEffect, useState } from 'react'
 import Notification from '../../components/Notification';
+import { Send, Trash } from 'lucide-react'
 
 const page = ({params} : {params: Promise<{budgetId: string}>}) => {
 
@@ -106,6 +107,53 @@ const page = ({params} : {params: Promise<{budgetId: string}>}) => {
               </button>
             </div>
           </div>
+
+          {
+            budget?.transactions && budget?.transactions.length > 0 ?(
+              <div className="overflow-x-auto md:mt-0 mt-4 md:w-2/3 ml-4">
+                <table className="table table-zebra">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Amount</th>
+                      <th>Description</th>
+                      <th>Date</th>
+                      <th>Heure</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {budget?.transactions?.map((transaction) => (
+                      <tr key={transaction.id}>
+                        <th className='text-lg md:text-3xl'>{transaction.emoji}</th>
+                        <td>
+                          <div className="badge badge-accent badge-xs md:badge-sm"> - {transaction.amount} XAF</div>
+                        </td>
+                        <td>{transaction.description}</td>
+                        <td>{transaction.createdAt.toLocaleDateString("fr-FR")}</td>
+                        <td>{transaction.createdAt.toLocaleTimeString("fr-FR", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: '2-digit'
+                        })}</td>
+                        <td>
+                          <button className='btn btn-sm'>
+                            <Trash className='w-4' />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ): (
+              <div className='md:w-2/3 mt-10 md:ml-4 flex items-center justify-center'>
+                <Send className='w-8 h-8 text-accent' strokeWidth={1.6} />
+                <span className='text-gray-500 ml-2'>no transaction</span>
+              </div>
+            )
+          }
         </div>
       )}
     </Wrapper>
