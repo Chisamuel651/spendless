@@ -262,3 +262,85 @@ export async function getTransactionsByEmailAndPeriod( email: string, period: st
         throw error;
     }
 }
+
+// dashboard
+
+export async function getTotalTransactionAmount( email: string ){
+    try {
+        const user = await prisma.user.findUnique({
+            where: {email},
+            include: {
+                budgets: {
+                    include: {
+                        transactions: true
+                    }
+                }
+            }
+        })
+
+        if(!user) throw new Error('User not found');
+
+        const totalAmount = user.budgets.reduce((sum, budgets) => {
+            return sum + budgets.transactions.reduce((budgetSum, transaction) => budgetSum + transaction.amount, 0)
+        }, 0)
+
+        return totalAmount
+    } catch (error) {
+        console.error("An error occured when calculating the transaction amount: ", error);
+        throw error;
+    }
+}
+
+export async function getTotalTransactionCount( email: string ){
+    try {
+        const user = await prisma.user.findUnique({
+            where: {email},
+            include: {
+                budgets: {
+                    include: {
+                        transactions: true
+                    }
+                }
+            }
+        })
+    
+        if(!user) throw new Error('User not found');
+    
+        const totalCount = user.budgets.reduce((count, budgets) => {
+            return count + budgets.transactions.length
+        }, 0)
+    
+        return totalCount
+    } catch (error) {
+        console.error("An error occured when calculating the transaction count: ", error);
+        throw error;
+    }
+}
+
+export async function getReachedBudgets( email: string ){
+    try {
+        const user = await prisma.user.findUnique({
+            where: {email},
+            include: {
+                budgets: {
+                    include: {
+                        transactions: true
+                    }
+                }
+            }
+        })
+
+        if(!user) throw new Error('User not found');
+
+        const totalBudgets = user.budgets.length
+        const reachedBudgets = user.budgets.filter(budget => {
+            const totalTransactionsAmount = budget.transactions.reduce((sum, transaction) => sum + transaction.amount, 0)
+            return totalTransactionsAmount >= budget.amount
+        }).length
+
+        return `${reachedBudgets}/${totalBudgets}`
+    } catch (error) {
+        console.error("An error occured when calculating the budget reached: ", error);
+        throw error;
+    }
+}

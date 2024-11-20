@@ -13,7 +13,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({transaction}) => {
         <div className='w-full sm:w-auto my-4'>
             <button className='btn'>
                 <div className="badge badge-accent">
-                    - {transaction.amount}
+                    - {transaction.amount} XAF
                 </div>
                 {transaction.budgetName}
             </button>

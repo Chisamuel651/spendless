@@ -20,10 +20,11 @@ const page = () => {
   const [budgetAmount, setBudgetAmount] = useState<string>("")
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false)
   const [selectedEmoji, setSelectedEmoji] = useState<string>("")
-
+  
   const [budgets, setBudgets] = useState<Budget[]>([])
 
   const [notification, setNotification] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
   const closeNotification = () => {
     // close notification
     setNotification("")
@@ -68,10 +69,12 @@ const page = () => {
 
   const fetchBudgets = async () => {
     if(user?.primaryEmailAddress?.emailAddress){
+      setLoading(true)
       try {
         const userBudgets = await getBudgetsByUser(user?.primaryEmailAddress?.emailAddress)
 
         setBudgets(userBudgets)
+        setLoading(false)
       } catch (error) {
         setNotification(`An error occured when getting your budgets: ${error}`);
       }
@@ -146,17 +149,19 @@ const page = () => {
         </div>
       </dialog>
 
-      <ul className='grid md:grid-cols-3 gap-4'>
-        { budgets.map((budget) => (
-          <Link key={budget.id} href={`/manage/${budget.id}`}>
-            <BudgetItem budget={budget} enableHover={1}>
-              
-            </BudgetItem>
-          </Link>
-        ))
-
-        }
-      </ul>
+      {loading ? ( // Show loading indicator
+        <div className='flex justify-center items-center my-4'>
+          <span className="loading loading-spinner text-info"></span>
+        </div>
+      ) : (
+        <ul className='grid md:grid-cols-3 gap-4'>
+          {budgets.map((budget) => (
+            <Link key={budget.id} href={`/manage/${budget.id}`}>
+              <BudgetItem budget={budget} enableHover={1} />
+            </Link>
+          ))}
+        </ul>
+      )}
     </Wrapper>
   )
 }

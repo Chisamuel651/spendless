@@ -26,7 +26,7 @@ const Navbar = () => {
 
                     <div className="md:flex hidden">
                         <Link className='btn' href={'/budgets'}>My budgets</Link>
-                        <Link className='btn mx-4' href={''}>Dashboard</Link>
+                        <Link className='btn mx-4' href={'/dashboard'}>Dashboard</Link>
                         <Link className='btn' href={'/transactions'}>My transactions</Link>
                     </div>
 
@@ -36,7 +36,7 @@ const Navbar = () => {
                 {/* mobile responsiveness */}
                 <div className="md:hidden flex mt-2 justify-center space-x-2">
                     <Link className='btn btn-xs' href={'/budgets'}>My budgets</Link>
-                    <Link className='btn mx-2 btn-xs' href={''}>Dashboard</Link>
+                    <Link className='btn mx-2 btn-xs' href={'/dashboard'}>Dashboard</Link>
                     <Link className='btn btn-xs' href={'/transactions'}>My transactions</Link>
                 </div>
                 
