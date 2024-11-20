@@ -122,7 +122,7 @@ const budgets: Budget[] = [
         emoji: "🛋️",
         description: "Furnitures",
         createdAt: new Date("2024-04-10"),
-        budgetName: "Maison",
+        budgetName: "Home",
         budgetId: "6",
       },
     ],
