@@ -1,6 +1,7 @@
 'use server'
 
 import prisma from "@/lib/prisma"
+import budgets from "./data"
 
 export async function checkAndAddUser( email: string | undefined ){
     if(!email) return
@@ -181,6 +182,83 @@ export async function deleteTransaction( transactionId: string ){
 
     } catch (error) {
         console.error("An error occured when deleting the transaction: ", error);
+        throw error;
+    }
+}
+
+export async function getTransactionsByEmailAndPeriod( email: string, period: string ){
+    try {
+        const now = new Date();
+        let dateLimit
+
+        switch (period) {
+            case 'last7':
+                dateLimit = new Date(now);
+                dateLimit.setDate(now.getDate() - 7);
+                break;
+            
+            case 'last30':
+                dateLimit = new Date(now);
+                dateLimit.setDate(now.getDate() - 30);
+                break;
+
+            case 'last60':
+                dateLimit = new Date(now);
+                dateLimit.setDate(now.getDate() - 60);
+                break;
+
+            case 'last90':
+                dateLimit = new Date(now);
+                dateLimit.setDate(now.getDate() - 90);
+                break;
+
+            case 'last365':
+                dateLimit = new Date(now);
+                dateLimit.setDate(now.getFullYear() - 1);
+                break;
+        
+            default:
+                throw new Error('Invalid period');
+                break;
+        }
+
+        // get user by email
+        const user = await prisma.user.findUnique({
+            where: {email},
+            include: {
+                budgets: {
+                    include: {
+                        transactions: {
+                            where: {
+                                createdAt: {
+                                    gte: dateLimit
+                                }
+                            },
+
+                            orderBy: {
+                                createdAt: 'desc'
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        if(!user){
+            throw new Error('User not found.');
+        }
+
+        const transactions = user.budgets.flatMap(budget =>
+            budget.transactions.map(transaction => ({
+                ...transaction,
+                budgetName: budget.name,
+                budgetId: budget.id
+            }))
+        )
+
+        return transactions
+    } catch (error) {
+        console.error("An error occured when getting the transaction: ", error);
         throw error;
     }
 }
