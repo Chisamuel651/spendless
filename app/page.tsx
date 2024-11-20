@@ -19,11 +19,6 @@ export default function Home() {
             <p className="py-6 text-gray-800 text-center">
               Keep an eye on your expenses and your budget <br /> simply, with our intuitive application!
             </p>
-
-            <div className="flex justify-center items-center">
-              <Link href={"/sign-in"} className="btn btn-sm md:btn-md btn-outline btn-accent">Login</Link>
-              <Link href={"/sign-up"} className="btn btn-sm md:btn-md ml-2 btn-accent">Sign Up</Link>
-            </div>
           </div>
 
           <ul className='grid md:grid-cols-3 gap-4 mt-6 md:min-w-[1200px]'>

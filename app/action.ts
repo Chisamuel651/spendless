@@ -344,3 +344,95 @@ export async function getReachedBudgets( email: string ){
         throw error;
     }
 }
+
+export async function getUserBudgetData( email: string ){
+    try {
+        const user = await prisma.user.findUnique({
+            where: {email},
+            include: {
+                budgets: {
+                    include: {
+                        transactions: true,
+                    }
+                }
+            }
+        })
+
+        if(!user) throw new Error('User not found');
+
+        const data = user.budgets.map(budgets => {
+            const totalTransactionsAmount = budgets.transactions.reduce((sum, transaction) => sum + transaction.amount, 0)
+
+            return {
+                budgetName: budgets.name,
+                totalBudgetAmount: budgets.amount,
+                totalTransactionsAmount
+            }
+        })
+
+        return data;
+    } catch (error) {
+        console.error("An error occured when calculating the budget data: ", error);
+        throw error;
+    }
+}
+
+export async function getLastTransactions( email: string ){
+    try {
+        const transactions = await prisma.transaction.findMany({
+            where: {
+                budget: {
+                    user: {
+                        email: email,
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+            take: 10,
+            include: {
+                budget: {
+                    select: {
+                        name: true,
+                    }
+                }
+            }
+        })
+
+        const transactionsWithBudgetName = transactions.map(transaction => ({
+            ...transaction,
+            budgetName: transaction.budget?.name || 'N/A',
+        }));
+
+        return transactionsWithBudgetName
+
+    } catch (error) {
+        console.error("An error occured when obtaining the transactions: ", error);
+        throw error;
+    }
+}
+
+export async function getLastBudgets( email: string ){
+    try {
+        const budgets = await prisma.budget.findMany({
+            where: {
+                user: {
+                    email
+                }
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+            take: 3,
+            include: {
+                transactions: true
+            }
+        })
+
+        return budgets
+    } catch (error) {
+        console.error("An error occured when obtaining the budget: ", error);
+        throw error;
+    }
+}
