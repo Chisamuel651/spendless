@@ -214,7 +214,7 @@ export async function getTransactionsByEmailAndPeriod( email: string, period: st
 
             case 'last365':
                 dateLimit = new Date(now);
-                dateLimit.setDate(now.getFullYear() - 1);
+                dateLimit.setFullYear(now.getFullYear() - 1);
                 break;
         
             default:
