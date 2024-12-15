@@ -1,4 +1,5 @@
 'use client'
+// eslint-disable-next-line react-hooks/exhaustive-deps
 import React, { useEffect, useState } from 'react'
 import Wrapper from '../components/Wrapper'
 import { useUser } from '@clerk/nextjs'
@@ -13,7 +14,7 @@ import { Landmark } from 'lucide-react';
 
 const EmojiPicker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
-const page = () => {
+const Page = () => {
   const { user } = useUser()
   // usestate
   const [budgetName, setBudgetName] = useState<string>("")
@@ -166,4 +167,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

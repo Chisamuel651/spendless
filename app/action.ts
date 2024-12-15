@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from "@/lib/prisma"
-import budgets from "./data"
+// import budgets from "./data"
 
 export async function checkAndAddUser( email: string | undefined ){
     if(!email) return
@@ -139,6 +139,7 @@ export async function addTransactionsToBudget(
                 }
             }
         })
+        console.log(newTransaction);
     } catch (error) {
         console.error("Error occured during the creation of the Transaction: ", error);
         throw error;

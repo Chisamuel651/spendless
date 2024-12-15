@@ -8,7 +8,7 @@ import Notification from '../../components/Notification';
 import { Send, Trash } from 'lucide-react'
 import { redirect } from 'next/navigation'
 
-const page = ({params} : {params: Promise<{budgetId: string}>}) => {
+const Page = ({params} : {params: Promise<{budgetId: string}>}) => {
 
     const [budgetId, setBudgetId] = useState<string>("")
     const [budget, setBudget] = useState<Budget>()
@@ -55,6 +55,7 @@ const page = ({params} : {params: Promise<{budgetId: string}>}) => {
         }
 
         const newTransaction = await addTransactionsToBudget(budgetId, amountNumber, description)
+        console.log(newTransaction);
 
         setNotification('Transaction added successfully')
         fetchBudgetData(budgetId)
@@ -63,6 +64,7 @@ const page = ({params} : {params: Promise<{budgetId: string}>}) => {
         setDescription('')
       } catch (error) {
         setNotification("You\'ve exceeded the budget amount.")
+        console.log(error);
       }
     }
 
@@ -198,4 +200,4 @@ const page = ({params} : {params: Promise<{budgetId: string}>}) => {
   )
 }
 
-export default page
+export default Page

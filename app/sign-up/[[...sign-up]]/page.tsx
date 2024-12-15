@@ -1,23 +1,28 @@
 import { SignUp } from '@clerk/nextjs'
+import Image from 'next/image'
 
 export default function Page() {
     return (
         <section className="bg-white">
             <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
                 <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
-                    <img
+                    <Image
                         alt=""
-                        src="https://images.unsplash.com/photo-1617195737496-bc30194e3a19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                        src="/cover_image4.jpg"
                         className="absolute inset-0 h-full w-full object-cover opacity-80"
+                        height={700}
+                        width={700}
                     />
 
                     <div className="hidden lg:relative lg:block lg:p-12">
                         <a className="block text-white" href="#">
                             <span className="sr-only">Home</span>
-                            <img 
+                            <Image 
                                 src='./logo-2.svg'
                                 alt='logo'
                                 className='h-8 sm:h-10'
+                                height={300}
+                                width={300}
                             />
                         </a>
 
@@ -40,10 +45,12 @@ export default function Page() {
                                 className="inline-flex size-16 items-center justify-center rounded-full bg-white text-blue-600 sm:size-20"
                                 href="#"
                             >
-                                <img 
+                                <Image 
                                     src='./logo-1.svg'
                                     alt='logo'
                                     className='h-8 sm:h-10'
+                                    height={300}
+                                    width={300}
                                 />
                             </a>
 

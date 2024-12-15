@@ -4,19 +4,19 @@ import React, { useEffect, useState } from 'react'
 import { getLastBudgets, getLastTransactions, getReachedBudgets, getTotalTransactionAmount, getTotalTransactionCount, getUserBudgetData } from '../action';
 import Wrapper from '../components/Wrapper';
 import { BadgeDollarSign, Landmark, PiggyBank } from 'lucide-react';
-import { BarChart, CartesianGrid, Bar, Tooltip, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { BarChart, CartesianGrid, Bar, Tooltip, XAxis, ResponsiveContainer } from 'recharts';
 import { Budget, Transaction } from '@/type';
 import Link from 'next/link';
 import BudgetItem from '../components/budgetItems';
 import TransactionItem from '../components/TransactionItem';
 
-const page = () => {
+const Page = () => {
     const { user } = useUser();
     const [totalAmount, setTotalAmount] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [totalCounts, setTotalCounts] = useState<number | null>(null);
     const [reachedBudgetsRatio, setReachedBudgetsRatio] = useState<string | null>(null);
-    const [budgetsData, setBudgetsData] = useState<any[]>([]);
+    const [budgetsData, setBudgetsData] = useState<any[]>([]); // eslint-disable-line @typescript-eslint/no-explicit-any
     const [transactions, setTransactions] = useState<Transaction[]>([])
     const [budgets, setBudgets] = useState<Budget[]>([])
 
@@ -140,4 +140,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
